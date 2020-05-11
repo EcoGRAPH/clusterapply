@@ -4,12 +4,7 @@ library(parallel)
 library(dplyr)
 library(ggplot2)
 
-source("applyover.R")
-source("applytoeachinlist.R")
-source("batch_bam.R")
-source("predict.batch_bam.R")
-source("extractAIC.batch_bam.R")
-source("summary.batch_bam.R")
+library(clusterapply)
 
 # create a fake data set with multiple levels of an over variable
 nsamples <- 2500
