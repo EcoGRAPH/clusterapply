@@ -3,12 +3,10 @@ predict.batch_bam <- function(models=NULL,
                               over=NULL,
                               newdata=NULL,
                               cluster=NULL) {
-  
-  source("applytoeachinlist.R")
-  
+
   # if we have newdata, we need to split it carefully
   if (!is.null(newdata)) {
-  
+
     # apply predict.gam to each object in the set with complete newdata
     myfitted <- applytoeachinlist(listobject=models,
                                   applyfun="predict",
@@ -19,9 +17,9 @@ predict.batch_bam <- function(models=NULL,
                                   splitalongsidesplitter=over,
                                   libs=c("mgcv"),
                                   cluster=mycluster)
-    
+
   } else {
-    
+
     # apply predict.gam to each object in the set with complete newdata
     myfitted <- applytoeachinlist(listobject=models,
                                   applyfun="predict",
@@ -29,9 +27,9 @@ predict.batch_bam <- function(models=NULL,
                                   nameaftersplit="object",
                                   libs=c("mgcv"),
                                   cluster=mycluster)
-    
+
   }
-  
+
   # put predictions back into a data frame
   mypredictions <- data.frame(rowname = unlist(applytoeachinlist(listobject=myfitted,
                                                applyfun="names",
@@ -41,8 +39,8 @@ predict.batch_bam <- function(models=NULL,
                                                                 applyfun="as.data.frame",
                                                                 nameaftersplit="x",
                                                                 cluster=mycluster)))
-  
-  
+
+
   return(mypredictions)
-  
+
 }
