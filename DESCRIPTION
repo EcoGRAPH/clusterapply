@@ -1,0 +1,13 @@
+Package: clusterapply
+Type: Package
+Title: Applying functions using parallel computing
+Version: 0.1.0
+Author: Justin K. Davis <justinkdavis@ou.edu>
+Maintainer: Justin K. Davis <justinkdavis@ou.edu>
+Description: These functions are intended to be used for applying 
+    functions over data sets split along some factor variable,
+    using clusters created by the parallel library for parallel
+    computations.
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
