@@ -3,7 +3,6 @@ rm(list=ls())
 library(parallel)
 library(dplyr)
 library(ggplot2)
-
 library(clusterapply)
 
 # create a fake data set with multiple levels of an over variable
