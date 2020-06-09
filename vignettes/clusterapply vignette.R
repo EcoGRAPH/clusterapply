@@ -71,5 +71,3 @@ ggplot() + geom_line(data=newdf,
 
 # turn off the cluster
 stopCluster(mycluster)
-
-View(newdf)
