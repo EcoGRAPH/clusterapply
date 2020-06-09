@@ -30,8 +30,6 @@ applytoeachinlist <- function(listobject=NULL,
                               splitalongsidesplitter=NULL,
                               cluster=NULL) {
 
-  library(parallel)
-
   applytoeachinlistworker <- function(x=NULL,
                                       listobject=NULL,
                                       applyfun=NULL,
