@@ -4,12 +4,11 @@ batch_bam <- function(data=NULL,
                       cluster=NULL) {
 
   # run the requested model
-  mymodels <- applyover(applyfun="bam",
+  mymodels <- clusterapply::applyover(applyfun=mgcv::bam,
                         applyargs=bamargs,
                         settosplit=data,
                         nameaftersplit="data",
                         over=over,
-                        libs=c("mgcv"),
                         cluster=mycluster)
 
   return(mymodels)

@@ -24,10 +24,7 @@ applyover <- function(applyfun=NULL,
                       settosplit=NULL,
                       nameaftersplit=NULL,
                       over=NULL,
-                      libs=NULL,
                       cluster=NULL) {
-
-  library(parallel)
 
   applyoverworker <- function(x=NULL,
                               applyfun=NULL,
@@ -35,17 +32,9 @@ applyover <- function(applyfun=NULL,
                               settosplit=NULL,
                               nameaftersplit=NULL,
                               over=NULL,
-                              libs=NULL,
                               cluster=NULL) {
 
     tryCatch({
-
-      for (library in libs) {
-        if (!require(library, character.only=T, quietly=T)) {
-          install.packages(library, repos = "http://cran.us.r-project.org")
-          library(library, character.only=T)
-        }
-      }
 
       # only retain those data for this level of over
       tempdf <- settosplit[settosplit[,over] == x,]
@@ -68,7 +57,7 @@ applyover <- function(applyfun=NULL,
   # if we aren't passed a cluster, make a clean environment
   if (is.null(cluster)) {
 
-    cluster <- makeCluster(1)
+    cluster <- parallel::makeCluster(1)
 
   }
 
@@ -76,15 +65,14 @@ applyover <- function(applyfun=NULL,
   myx <- unique(settosplit[,over])
 
   # evaluate over this variable
-  result <- clusterApplyLB(fun=applyoverworker,
+  result <- parallel::clusterApplyLB(fun=applyoverworker,
                            cl=cluster,
                            x=myx,
                            applyfun=applyfun,
                            applyargs=applyargs,
                            settosplit=settosplit,
                            nameaftersplit=nameaftersplit,
-                           over=over,
-                           libs=libs)
+                           over=over)
 
   # make sure we know which entry corresponds to which level of over
   names(result) <- myx

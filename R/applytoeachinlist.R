@@ -1,3 +1,26 @@
+#' Apply a function to each member of a list, in parallel.
+#'
+#' @param listobject A named list object containing elements to which
+#'   the applyfun will be applied.
+#' @param applyfun The character name of a function to apply.
+#' @param applyargs A named list of arguments supplied to applyfun.
+#' @param splitalongside An optional dataframe that should be split alongside
+#'   the listobject, containing the factor variable splitalongsidename.
+#' @param nameaftersplit The name of the argument of applyfun that
+#'   takes the settosplit dataframe after it has been split; this is
+#'   commonly 'x' or 'data'
+#' @param over The name of the factor variable in settosplit, over
+#'   which it should be split.
+#' @param libs A vector of named libraries that need to be loaded
+#'   to run applyfun in clean clusters (e.g. applyfun 'bam' requires
+#'   libs = c('mgcv')
+#' @param cluster A cluster created by parallel::makeCluster. If this
+#'   is not provided, applyover will create a single-node cluster and
+#'   run applyfun in serial over settotsplit.
+#' @return This function returns a named list of results, having applied
+#'   applyfun to settosplit for every level of the 'over' variable. So for
+#'   example, result[["a"]] is the result of applyfun(data[data$over == 'a']).
+
 applytoeachinlist <- function(listobject=NULL,
                               applyfun=NULL,
                               applyargs=NULL,
@@ -5,11 +28,10 @@ applytoeachinlist <- function(listobject=NULL,
                               splitalongside=NULL,
                               splitalongsidename=NULL,
                               splitalongsidesplitter=NULL,
-                              libs=NULL,
                               cluster=NULL) {
-  
+
   library(parallel)
-  
+
   applytoeachinlistworker <- function(x=NULL,
                                       listobject=NULL,
                                       applyfun=NULL,
@@ -17,20 +39,12 @@ applytoeachinlist <- function(listobject=NULL,
                                       nameaftersplit=NULL,
                                       splitalongside=splitalongside,
                                       splitalongsidename=splitalongsidename,
-                                      splitalongsidesplitter=splitalongsidesplitter,
-                                      libs=NULL) {
+                                      splitalongsidesplitter=splitalongsidesplitter) {
     tryCatch({
-      
-      for (library in libs) {
-        if (!require(library, character.only=T, quietly=T)) {
-          install.packages(library, repos = "http://cran.us.r-project.org")
-          library(library, character.only=T)
-        }
-      }
-      
+
       # only retain that list object which needs to be evaluated
       tempobj <- listobject[[x]]
-      
+
       # create a new args to pass along the data as well
       myargs <- applyargs
       myargs[[nameaftersplit]] <- tempobj
@@ -39,23 +53,23 @@ applytoeachinlist <- function(listobject=NULL,
         myargs[[splitalongsidename]] <- splitalongside[splitalongside[,splitalongsidesplitter] == x,]
 
       }
-        
+
       # run the call
       result <- do.call(what=applyfun,
                         args=myargs)
-      
+
       # return the result
       return(result) },
-      
+
       error = function(e) { return(e) } )
-    
+
   }
-  
+
   # if we aren't passed a cluster, make a clean environment
   if (is.null(cluster)) {
-    
-    cluster <- makeCluster(1)
-    
+
+    cluster <- parallel::makeCluster(1)
+
   }
 
   # get list of the levels of the variable over which we split
@@ -65,9 +79,9 @@ applytoeachinlist <- function(listobject=NULL,
     applyargs[[splitalongsidename]] <- splitalongside
 
   }
-  
+
   # evaluate over this variable
-  result <- clusterApplyLB(fun=applytoeachinlistworker,
+  result <- parallel::clusterApplyLB(fun=applytoeachinlistworker,
                            cl=cluster,
                            x=myx,
                            listobject=listobject,
@@ -76,12 +90,11 @@ applytoeachinlist <- function(listobject=NULL,
                            nameaftersplit=nameaftersplit,
                            splitalongside=splitalongside,
                            splitalongsidename=splitalongsidename,
-                           splitalongsidesplitter=splitalongsidesplitter,
-                           libs=libs)
-  
+                           splitalongsidesplitter=splitalongsidesplitter)
+
   # make sure we know which entry corresponds to which level of over
   names(result) <- myx
-  
+
   return(result)
-  
+
 }

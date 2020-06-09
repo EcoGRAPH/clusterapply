@@ -2,7 +2,7 @@ extractAIC.batch_bam <- function(models=NULL,
                                  cluster=NULL) {
 
   # apply predict.gam to each object in the set with complete newdata
-  myAICs <- applytoeachinlist(listobject=models,
+  myAICs <- clusterapply::applytoeachinlist(listobject=models,
                               applyfun="extractAIC",
                               nameaftersplit="fit",
                               cluster=mycluster)

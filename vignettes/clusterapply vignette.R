@@ -51,16 +51,15 @@ newdf <- expand.grid(splittingvariable=unique(mydf$splittingvariable),
                            length.out=500))
 
 # predict on the new set
-mypredictions <- predict.batch_bam(models=mymodels,
-                                   predictargs=list("type"="response",
-                                                    "discrete"=TRUE),
-                                   over="splittingvariable",
-                                   newdata=newdf,
-                                   cluster=mycluster)
-newdf$rowname <- rownames(newdf)
-newdf <- left_join(newdf, mypredictions, by="rowname")
+newdf$pred <- predict.batch_bam(models=mymodels,
+                            predictargs=list("type"="response",
+                                             "discrete"=TRUE),
+                            over="splittingvariable",
+                            newdata=newdf,
+                            cluster=mycluster)
 
-# join back to original frame and display
+
+# display
 ggplot() + geom_line(data=newdf,
                      aes(x=y, y=pred,
                          color=factor(splittingvariable),
@@ -73,5 +72,4 @@ ggplot() + geom_line(data=newdf,
 # turn off the cluster
 stopCluster(mycluster)
 
-
-
+View(newdf)
