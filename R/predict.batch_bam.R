@@ -19,17 +19,17 @@ predict.batch_bam <- function(models=NULL,
                                   splitalongside=newdata,
                                   splitalongsidename="newdata",
                                   splitalongsidesplitter=over,
-                                  cluster=mycluster)
+                                  cluster=cluster)
 
     # put predictions back into a data frame
     mypredictions <- data.frame(reserved_rownumber = as.numeric(unlist(clusterapply::applytoeachinlist(listobject=myfitted,
                                                                                  applyfun="names",
                                                                                  nameaftersplit="x",
-                                                                                 cluster=mycluster))),
+                                                                                 cluster=cluster))),
                                 pred    = unlist(clusterapply::applytoeachinlist(listobject=myfitted,
                                                                                  applyfun="as.data.frame",
                                                                                  nameaftersplit="x",
-                                                                                 cluster=mycluster)))
+                                                                                 cluster=cluster)))
 
     # feels unwieldy, but think is necessary
     newdata <- left_join(newdata, mypredictions, by=c("reserved_rownumber"))

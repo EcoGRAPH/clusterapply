@@ -5,7 +5,7 @@ extractAIC.batch_bam <- function(models=NULL,
   myAICs <- clusterapply::applytoeachinlist(listobject=models,
                               applyfun="extractAIC",
                               nameaftersplit="fit",
-                              cluster=mycluster)
+                              cluster=cluster)
 
   # fix this nonsense later
   myAICs <- data.frame(t(data.frame(myAICs)))

@@ -5,7 +5,7 @@ summary.batch_bam <- function(models=NULL,
   mysummaries <- clusterapply::applytoeachinlist(listobject=models,
                                    applyfun="summary",
                                    nameaftersplit="object",
-                                   cluster=mycluster)
+                                   cluster=cluster)
 
   return(mysummaries)
 

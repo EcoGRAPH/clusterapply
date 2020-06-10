@@ -9,7 +9,7 @@ batch_bam <- function(data=NULL,
                         settosplit=data,
                         nameaftersplit="data",
                         over=over,
-                        cluster=mycluster)
+                        cluster=cluster)
 
   return(mymodels)
 
