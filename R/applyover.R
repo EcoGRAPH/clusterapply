@@ -34,10 +34,7 @@ applyover <- function(applyfun=NULL,
   }
 
   # get list of the levels of the variable over which we split
-  myx <- unique(settosplit[,over])
-
-
-
+  myx <- split(settosplit, f = settosplit[,over])
 
   # evaluate over this variable
   result <- parallel::clusterApplyLB(fun=clusterapply::applyoverworker,
@@ -45,12 +42,11 @@ applyover <- function(applyfun=NULL,
                            x=myx,
                            applyfun=applyfun,
                            applyargs=applyargs,
-                           settosplit=settosplit,
                            nameaftersplit=nameaftersplit,
                            over=over)
 
   # make sure we know which entry corresponds to which level of over
-  names(result) <- myx
+  names(result) <- names(myx)
 
   return(result)
 

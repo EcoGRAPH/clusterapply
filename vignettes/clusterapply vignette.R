@@ -33,6 +33,7 @@ mymodels <- batch_bam(data=mydf,
                                    "discrete" = TRUE),
                       over="splittingvariable",
                       cluster=mycluster)
+View(mymodels)
 
 # take a look at model AICs
 myAICs <- extractAIC.batch_bam(models=mymodels,

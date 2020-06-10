@@ -22,19 +22,15 @@
 applyoverworker <- function(x=NULL,
                             applyfun=NULL,
                             applyargs=NULL,
-                            settosplit=NULL,
                             nameaftersplit=NULL,
                             over=NULL,
                             cluster=NULL) {
 
   tryCatch({
 
-    # only retain those data for this level of over
-    tempdf <- settosplit[settosplit[,over] == x,]
-
     # create a new args to pass along the data as well
     myargs <- applyargs
-    myargs[[nameaftersplit]] <- tempdf
+    myargs[[nameaftersplit]] <- x
 
     # run the call
     result <- do.call(what=applyfun,
