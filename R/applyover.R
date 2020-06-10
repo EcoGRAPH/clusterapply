@@ -48,9 +48,9 @@ applyover <- function(applyfun=NULL,
   # make sure we know which entry corresponds to which level of over
   names(result) <- names(myx)
 
+  # clean up
   rm(list=setdiff(ls(), "result"))
   gc()
-
   return(result)
 
 }

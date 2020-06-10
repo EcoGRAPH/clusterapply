@@ -47,9 +47,22 @@ applytoeachinlistworker <- function(x=NULL,
     result <- do.call(what=applyfun,
                       args=myargs)
 
-    # return the result
-    return(result) },
+    # clean up as much as we can
+    rm(list=setdiff(ls(), "result"))
+    gc()
 
-    error = function(e) { return(e) } )
+    # return the result
+    return(result)
+
+  },
+
+    error = function(e) {
+
+      # clean up as much as we can
+      rm(list=setdiff(ls(), "e"))
+      gc()
+      return(e)
+
+  } )
 
 }

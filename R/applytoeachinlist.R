@@ -60,6 +60,10 @@ applytoeachinlist <- function(listobject=NULL,
   # make sure we know which entry corresponds to which level of over
   names(result) <- myx
 
+  # clean up as much as we can
+  rm(list=setdiff(ls(), "result"))
+  gc()
+
   return(result)
 
 }
