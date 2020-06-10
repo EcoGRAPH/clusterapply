@@ -37,7 +37,9 @@ applyoverworker <- function(x=NULL,
                       args=myargs)
 
     # return the result
-    return(result) },
+    return(result)
+
+  },
 
     error = function(e) { return(e) } )
 
