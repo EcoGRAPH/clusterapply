@@ -36,11 +36,20 @@ applyoverworker <- function(x=NULL,
     result <- do.call(what=applyfun,
                       args=myargs)
 
+    # clean up as much as we can
+    rm(list=setdiff(ls(), "result"))
+    gc()
     # return the result
     return(result)
 
   },
 
-    error = function(e) { return(e) } )
+    error = function(e) {
+
+      rm(list=setdiff(ls(), "e"))
+      gc()
+      return(e)
+
+  } )
 
 }
