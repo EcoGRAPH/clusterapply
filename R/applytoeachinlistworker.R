@@ -1,0 +1,55 @@
+#' Apply a function to each member of a list, in parallel.
+#'
+#' @param listobject A named list object containing elements to which
+#'   the applyfun will be applied.
+#' @param applyfun The character name of a function to apply.
+#' @param applyargs A named list of arguments supplied to applyfun.
+#' @param splitalongside An optional dataframe that should be split alongside
+#'   the listobject, containing the factor variable splitalongsidename.
+#' @param nameaftersplit The name of the argument of applyfun that
+#'   takes the settosplit dataframe after it has been split; this is
+#'   commonly 'x' or 'data'
+#' @param over The name of the factor variable in settosplit, over
+#'   which it should be split.
+#' @param libs A vector of named libraries that need to be loaded
+#'   to run applyfun in clean clusters (e.g. applyfun 'bam' requires
+#'   libs = c('mgcv')
+#' @param cluster A cluster created by parallel::makeCluster. If this
+#'   is not provided, applyover will create a single-node cluster and
+#'   run applyfun in serial over settotsplit.
+#' @return This function returns a named list of results, having applied
+#'   applyfun to settosplit for every level of the 'over' variable. So for
+#'   example, result[["a"]] is the result of applyfun(data[data$over == 'a']).
+
+applytoeachinlistworker <- function(x=NULL,
+                                    listobject=NULL,
+                                    applyfun=NULL,
+                                    applyargs=NULL,
+                                    nameaftersplit=NULL,
+                                    splitalongside=splitalongside,
+                                    splitalongsidename=splitalongsidename,
+                                    splitalongsidesplitter=splitalongsidesplitter) {
+  tryCatch({
+
+    # only retain that list object which needs to be evaluated
+    tempobj <- listobject[[x]]
+
+    # create a new args to pass along the data as well
+    myargs <- applyargs
+    myargs[[nameaftersplit]] <- tempobj
+    if (!is.null(splitalongside)) {
+
+      myargs[[splitalongsidename]] <- splitalongside[splitalongside[,splitalongsidesplitter] == x,]
+
+    }
+
+    # run the call
+    result <- do.call(what=applyfun,
+                      args=myargs)
+
+    # return the result
+    return(result) },
+
+    error = function(e) { return(e) } )
+
+}

@@ -26,34 +26,6 @@ applyover <- function(applyfun=NULL,
                       over=NULL,
                       cluster=NULL) {
 
-  applyoverworker <- function(x=NULL,
-                              applyfun=NULL,
-                              applyargs=NULL,
-                              settosplit=NULL,
-                              nameaftersplit=NULL,
-                              over=NULL,
-                              cluster=NULL) {
-
-    tryCatch({
-
-      # only retain those data for this level of over
-      tempdf <- settosplit[settosplit[,over] == x,]
-
-      # create a new args to pass along the data as well
-      myargs <- applyargs
-      myargs[[nameaftersplit]] <- tempdf
-
-      # run the call
-      result <- do.call(what=applyfun,
-                        args=myargs)
-
-      # return the result
-      return(result) },
-
-      error = function(e) { return(e) } )
-
-  }
-
   # if we aren't passed a cluster, make a clean environment
   if (is.null(cluster)) {
 
@@ -64,8 +36,11 @@ applyover <- function(applyfun=NULL,
   # get list of the levels of the variable over which we split
   myx <- unique(settosplit[,over])
 
+
+
+
   # evaluate over this variable
-  result <- parallel::clusterApplyLB(fun=applyoverworker,
+  result <- parallel::clusterApplyLB(fun=clusterapply::applyoverworker,
                            cl=cluster,
                            x=myx,
                            applyfun=applyfun,

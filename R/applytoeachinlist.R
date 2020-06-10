@@ -30,39 +30,6 @@ applytoeachinlist <- function(listobject=NULL,
                               splitalongsidesplitter=NULL,
                               cluster=NULL) {
 
-  applytoeachinlistworker <- function(x=NULL,
-                                      listobject=NULL,
-                                      applyfun=NULL,
-                                      applyargs=NULL,
-                                      nameaftersplit=NULL,
-                                      splitalongside=splitalongside,
-                                      splitalongsidename=splitalongsidename,
-                                      splitalongsidesplitter=splitalongsidesplitter) {
-    tryCatch({
-
-      # only retain that list object which needs to be evaluated
-      tempobj <- listobject[[x]]
-
-      # create a new args to pass along the data as well
-      myargs <- applyargs
-      myargs[[nameaftersplit]] <- tempobj
-      if (!is.null(splitalongside)) {
-
-        myargs[[splitalongsidename]] <- splitalongside[splitalongside[,splitalongsidesplitter] == x,]
-
-      }
-
-      # run the call
-      result <- do.call(what=applyfun,
-                        args=myargs)
-
-      # return the result
-      return(result) },
-
-      error = function(e) { return(e) } )
-
-  }
-
   # if we aren't passed a cluster, make a clean environment
   if (is.null(cluster)) {
 
@@ -79,7 +46,7 @@ applytoeachinlist <- function(listobject=NULL,
   }
 
   # evaluate over this variable
-  result <- parallel::clusterApplyLB(fun=applytoeachinlistworker,
+  result <- parallel::clusterApplyLB(fun=clusterapply::applytoeachinlistworker,
                            cl=cluster,
                            x=myx,
                            listobject=listobject,
