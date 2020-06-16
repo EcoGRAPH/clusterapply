@@ -24,7 +24,7 @@ mydf$rowname <- as.character(1:nrow(mydf))
 rownames(mydf) <- mydf$rowname
 
 # create a cluster for all the functions below to use
-mycluster <- makeCluster(2)
+mycluster <- makeCluster(12)
 
 # this is equivalent to
 mymodels <- batch_bam(data=mydf,
@@ -33,7 +33,6 @@ mymodels <- batch_bam(data=mydf,
                                    "discrete" = TRUE),
                       over="splittingvariable",
                       cluster=mycluster)
-View(mymodels)
 
 # take a look at model AICs
 myAICs <- extractAIC.batch_bam(models=mymodels,
@@ -60,15 +59,15 @@ newdf$pred <- predict.batch_bam(models=mymodels,
                             cluster=mycluster)
 
 
-# display
-ggplot() + geom_line(data=newdf,
-                     aes(x=y, y=pred,
-                         color=factor(splittingvariable),
-                         group=factor(splittingvariable)), size=1) +
-  geom_point(data=mydf,
-             aes(x=y, y=z, color=factor(splittingvariable),
-                 group=factor(splittingvariable)), alpha=0.5) +
-  scale_color_discrete(name="splitting\nvariable")
+# # display
+# ggplot() + geom_line(data=newdf,
+#                      aes(x=y, y=pred,
+#                          color=factor(splittingvariable),
+#                          group=factor(splittingvariable)), size=1) +
+#   geom_point(data=mydf,
+#              aes(x=y, y=z, color=factor(splittingvariable),
+#                  group=factor(splittingvariable)), alpha=0.5) +
+#   scale_color_discrete(name="splitting\nvariable")
 
-# turn off the cluster
-stopCluster(mycluster)
+# # turn off the cluster
+# stopCluster(mycluster)
