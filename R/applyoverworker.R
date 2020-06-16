@@ -37,7 +37,7 @@ applyoverworker <- function(x=NULL,
 
     # run the call
     result <- do.call(what=applyfun,
-                      args=myargs)
+                      args=applyargs)
 
     # clean up as much as we can
     rm(list=setdiff(ls(), "result"))
