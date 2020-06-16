@@ -28,9 +28,12 @@ applyoverworker <- function(x=NULL,
 
   tryCatch({
 
-    # create a new args to pass along the data as well
-    myargs <- applyargs
-    myargs[[nameaftersplit]] <- x
+    # add arguments to pass along
+    applyargs[[nameaftersplit]] <- x
+
+    rm(x)
+    rm(nameaftersplit)
+    gc()
 
     # run the call
     result <- do.call(what=applyfun,
