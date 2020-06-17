@@ -21,25 +21,25 @@
 #'   applyfun to settosplit for every level of the 'over' variable. So for
 #'   example, result[["a"]] is the result of applyfun(data[data$over == 'a']).
 
-applytoeachinlistworker <- function(X=myx,
-                                    FUN=clusterapply::applytoeachinlistworker,
-                                    listobject=listobject,
-                                    applyargs=applyargs,
-                                    nameaftersplit=nameaftersplit,
-                                    splitalongside=splitalongside,
-                                    splitalongsidename=splitalongsidename,
-                                    splitalongsidesplitter=splitalongsidesplitter) {
+applytoeachinlistworker <- function(X=NULL,
+                                    listobject=NULL,
+                                    applyargs=NULL,
+                                    applyfun=NULL,
+                                    nameaftersplit=NULL,
+                                    splitalongside=NULL,
+                                    splitalongsidename=NULL,
+                                    splitalongsidesplitter=NULL) {
   tryCatch({
 
     # only retain that list object which needs to be evaluated
-    tempobj <- listobject[[x]]
+    tempobj <- listobject[[X]]
 
     # create a new args to pass along the data as well
     myargs <- applyargs
     myargs[[nameaftersplit]] <- tempobj
     if (!is.null(splitalongside)) {
 
-      myargs[[splitalongsidename]] <- splitalongside[splitalongside[,splitalongsidesplitter] == x,]
+      myargs[[splitalongsidename]] <- splitalongside[splitalongside[,splitalongsidesplitter] == X,]
 
     }
 

@@ -31,13 +31,11 @@ mymodels <- batch_bam(data=mydf,
                       over="splittingvariable")
 
 # take a look at model AICs
-myAICs <- extractAIC.batch_bam(models=mymodels,
-                               cluster=mycluster)
+myAICs <- extractAIC.batch_bam(models=mymodels)
 myAICs
 
 # take a look at the summaries
-mysummaries <- summary.batch_bam(models=mymodels,
-                                 cluster=mycluster)
+mysummaries <- summary.batch_bam(models=mymodels)
 mysummaries[[1]]$scale
 
 # create a new data frame for modeling
@@ -48,22 +46,18 @@ newdf <- expand.grid(splittingvariable=unique(mydf$splittingvariable),
 
 # predict on the new set
 newdf$pred <- predict.batch_bam(models=mymodels,
-                            predictargs=list("type"="response",
-                                             "discrete"=TRUE),
-                            over="splittingvariable",
-                            newdata=newdf,
-                            cluster=mycluster)
+                                predictargs=list("type"="response",
+                                                "discrete"=TRUE),
+                                over="splittingvariable",
+                                newdata=newdf)
 
 
-# # display
-# ggplot() + geom_line(data=newdf,
-#                      aes(x=y, y=pred,
-#                          color=factor(splittingvariable),
-#                          group=factor(splittingvariable)), size=1) +
-#   geom_point(data=mydf,
-#              aes(x=y, y=z, color=factor(splittingvariable),
-#                  group=factor(splittingvariable)), alpha=0.5) +
-#   scale_color_discrete(name="splitting\nvariable")
-
-# # turn off the cluster
-# stopCluster(mycluster)
+# display
+ggplot() + geom_line(data=newdf,
+                     aes(x=y, y=pred,
+                         color=factor(splittingvariable),
+                         group=factor(splittingvariable)), size=1) +
+  geom_point(data=mydf,
+             aes(x=y, y=z, color=factor(splittingvariable),
+                 group=factor(splittingvariable)), alpha=0.5) +
+  scale_color_discrete(name="splitting\nvariable")

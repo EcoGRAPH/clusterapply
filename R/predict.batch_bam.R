@@ -10,7 +10,7 @@ predict.batch_bam <- function(models=NULL,
     row.names(newdata) <- 1:nrow(newdata)
     newdata$reserved_rownumber <- 1:nrow(newdata)
 
-    # apply predict.gam to each object in the set with complete newdata
+    # apply predict to each object in the set with complete newdata
     myfitted <- clusterapply::applytoeachinlist(listobject=models,
                                   applyfun=mgcv::predict.bam,
                                   applyargs=predictargs,
@@ -22,12 +22,10 @@ predict.batch_bam <- function(models=NULL,
     # put predictions back into a data frame
     mypredictions <- data.frame(reserved_rownumber = as.numeric(unlist(clusterapply::applytoeachinlist(listobject=myfitted,
                                                                                  applyfun="names",
-                                                                                 nameaftersplit="x",
-                                                                                 cluster=cluster))),
+                                                                                 nameaftersplit="x"))),
                                 pred    = unlist(clusterapply::applytoeachinlist(listobject=myfitted,
                                                                                  applyfun="as.data.frame",
-                                                                                 nameaftersplit="x",
-                                                                                 cluster=cluster)))
+                                                                                 nameaftersplit="x")))
 
     # feels unwieldy, but think is necessary
     newdata <- left_join(newdata, mypredictions, by=c("reserved_rownumber"))
