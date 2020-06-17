@@ -28,7 +28,7 @@ predict.batch_bam <- function(models=NULL,
                                                                                  nameaftersplit="x")))
 
     # feels unwieldy, but think is necessary
-    newdata <- left_join(newdata, mypredictions, by=c("reserved_rownumber"))
+    newdata <- dplyr::left_join(newdata, mypredictions, by=c("reserved_rownumber"))
     return(newdata$pred)
 
   } else {
