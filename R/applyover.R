@@ -39,11 +39,17 @@ applyover <- function(applyfun=NULL,
 
       tempresult <- do.call(what=applyfun, args=tempapplyargs)
 
+      # add to the list of results
+      result[[curx]] <- tempresult
+
+      # clean up
+      rm(tempresult)
+      rm(tempapplyargs)
+      gc()
+
     },
 
-      error=function(e)
-
-    {
+      error=function(e) {
 
       # if we have an error, try the fallbackargs
       for (curfallbackarg in 1:length(fallbackargs)) {
@@ -51,18 +57,17 @@ applyover <- function(applyfun=NULL,
         tempapplyargs[[names(fallbackargs)[curfallbackarg]]] <- fallbackargs[[curfallbackarg]]
 
       }
-        write.csv(tempapplyargs, "tempapply.csv")
       tempresult <- do.call(what=applyfun, args=tempapplyargs)
 
+      # add to the list of results
+      result[[curx]] <- tempresult
+
+      # clean up
+      rm(tempresult)
+      rm(tempapplyargs)
+      gc()
+
     })
-
-    # add to the list of results
-    result[[curx]] <- tempresult
-
-    # clean up
-    rm(tempresult)
-    rm(tempapplyargs)
-    gc()
 
   }
 
