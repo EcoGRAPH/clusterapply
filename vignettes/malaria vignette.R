@@ -16,7 +16,7 @@ reg_eq_fallback <- formula("log(cases_epidemiar+1) ~ 1 +
                     s(lag, by = lst_day, bs = 'tp', id = 3) +
                     s(lag, by = ndwi6, bs = 'tp', id = 4) +
                     s(lag, by = totprec, bs = 'tp', id = 5)")
-reg_eq_broken  <- formula("log(cases_epidemiar+1) ~ s(lag, id=1, bs='fz)")
+reg_eq_broken  <- formula("log(cases_epidemiar+1) ~ s(lag, id=1, bs='fz')")
 fc_model_family <- gaussian()
 
 # time regressions with no error
