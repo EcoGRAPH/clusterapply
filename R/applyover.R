@@ -51,6 +51,7 @@ applyover <- function(applyfun=NULL,
         tempapplyargs[[names(fallbackargs)[curfallbackarg]]] <- fallbackargs[[curfallbackarg]]
 
       }
+        write.csv(tempapplyargs, "tempapply.csv")
       tempresult <- do.call(what=applyfun, args=tempapplyargs)
 
     })
