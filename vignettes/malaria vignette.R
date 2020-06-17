@@ -52,7 +52,7 @@ regress <- clusterapply::batch_bam(data = epi_input_tp,
                                    bamargs = list("formula" = reg_eq_broken,
                                                   "family" = fc_model_family,
                                                   "discrete" = TRUE),
-                                   bamargs_fallback = list("formula" = reg_eq),
+                                   bamargs_fallback = list("formula" = reg_eq_fallback),
                                    over = "cluster_id")
 
 regress[[1]]
