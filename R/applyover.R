@@ -37,19 +37,10 @@ applyover <- function(applyfun=NULL,
 
     tryCatch({
 
-      tempresult <- do.call(what=applyfun, args=tempapplyargs)
-
       # add to the list of results
-      result[[curx]] <- tempresult
+      result[[curx]] <- do.call(what=applyfun, args=tempapplyargs)
 
-      # clean up
-      rm(tempresult)
-      rm(tempapplyargs)
-      gc()
-
-    },
-
-      error=function(e) {
+    }, error=function(e) {
 
       # if we have an error, try the fallbackargs
       for (curfallbackarg in 1:length(fallbackargs)) {
@@ -57,17 +48,14 @@ applyover <- function(applyfun=NULL,
         tempapplyargs[[names(fallbackargs)[curfallbackarg]]] <- fallbackargs[[curfallbackarg]]
 
       }
-      tempresult <- do.call(what=applyfun, args=tempapplyargs)
-
       # add to the list of results
-      result[[curx]] <- tempresult
-
-      # clean up
-      rm(tempresult)
-      rm(tempapplyargs)
-      gc()
+      result[[curx]] <<- do.call(what=applyfun, args=tempapplyargs)
 
     })
+
+    # clean up
+    rm(tempapplyargs)
+    gc()
 
   }
 
