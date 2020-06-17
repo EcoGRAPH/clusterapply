@@ -21,11 +21,11 @@
 #'   applyfun to settosplit for every level of the 'over' variable. So for
 #'   example, result[["a"]] is the result of applyfun(data[data$over == 'a']).
 
-applytoeachinlistworker <- function(x=NULL,
-                                    listobject=NULL,
-                                    applyfun=NULL,
-                                    applyargs=NULL,
-                                    nameaftersplit=NULL,
+applytoeachinlistworker <- function(X=myx,
+                                    FUN=clusterapply::applytoeachinlistworker,
+                                    listobject=listobject,
+                                    applyargs=applyargs,
+                                    nameaftersplit=nameaftersplit,
                                     splitalongside=splitalongside,
                                     splitalongsidename=splitalongsidename,
                                     splitalongsidesplitter=splitalongsidesplitter) {

@@ -27,15 +27,8 @@ applytoeachinlist <- function(listobject=NULL,
                               nameaftersplit=NULL,
                               splitalongside=NULL,
                               splitalongsidename=NULL,
-                              splitalongsidesplitter=NULL,
-                              cluster=NULL) {
+                              splitalongsidesplitter=NULL) {
 
-  # if we aren't passed a cluster, make a clean environment
-  if (is.null(cluster)) {
-
-    cluster <- parallel::makeCluster(1)
-
-  }
 
   # get list of the levels of the variable over which we split
   myx <- names(listobject)
@@ -45,17 +38,15 @@ applytoeachinlist <- function(listobject=NULL,
 
   }
 
-  # evaluate over this variable
-  result <- parallel::clusterApplyLB(fun=clusterapply::applytoeachinlistworker,
-                           cl=cluster,
-                           x=myx,
-                           listobject=listobject,
-                           applyfun=applyfun,
-                           applyargs=applyargs,
-                           nameaftersplit=nameaftersplit,
-                           splitalongside=splitalongside,
-                           splitalongsidename=splitalongsidename,
-                           splitalongsidesplitter=splitalongsidesplitter)
+  # run the function
+  result <- lapply(X=myx,
+                   FUN=clusterapply::applytoeachinlistworker,
+                   listobject=listobject,
+                   applyargs=applyargs,
+                   nameaftersplit=nameaftersplit,
+                   splitalongside=splitalongside,
+                   splitalongsidename=splitalongsidename,
+                   splitalongsidesplitter=splitalongsidesplitter)
 
   # make sure we know which entry corresponds to which level of over
   names(result) <- myx

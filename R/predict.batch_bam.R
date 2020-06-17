@@ -1,8 +1,7 @@
 predict.batch_bam <- function(models=NULL,
                               predictargs=NULL,
                               over=NULL,
-                              newdata=NULL,
-                              cluster=NULL) {
+                              newdata=NULL) {
 
   # if we have newdata, we need to split it carefully
   if (!is.null(newdata)) {
@@ -18,8 +17,7 @@ predict.batch_bam <- function(models=NULL,
                                   nameaftersplit="object",
                                   splitalongside=newdata,
                                   splitalongsidename="newdata",
-                                  splitalongsidesplitter=over,
-                                  cluster=cluster)
+                                  splitalongsidesplitter=over)
 
     # put predictions back into a data frame
     mypredictions <- data.frame(reserved_rownumber = as.numeric(unlist(clusterapply::applytoeachinlist(listobject=myfitted,

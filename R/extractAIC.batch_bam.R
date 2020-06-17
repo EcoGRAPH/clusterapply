@@ -1,11 +1,9 @@
-extractAIC.batch_bam <- function(models=NULL,
-                                 cluster=NULL) {
+extractAIC.batch_bam <- function(models=NULL) {
 
   # apply predict.gam to each object in the set with complete newdata
   myAICs <- clusterapply::applytoeachinlist(listobject=models,
                               applyfun="extractAIC",
-                              nameaftersplit="fit",
-                              cluster=cluster)
+                              nameaftersplit="fit")
 
   # fix this nonsense later
   myAICs <- data.frame(t(data.frame(myAICs)))

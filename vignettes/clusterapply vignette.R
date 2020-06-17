@@ -23,16 +23,12 @@ mydf$z[sample(1:nrow(mydf),
 mydf$rowname <- as.character(1:nrow(mydf))
 rownames(mydf) <- mydf$rowname
 
-# create a cluster for all the functions below to use
-mycluster <- makeCluster(12)
-
 # this is equivalent to
 mymodels <- batch_bam(data=mydf,
                       bamargs=list("formula"  = formula("z ~ s(y, bs='tp')"),
                                    "family"   = "gaussian",
                                    "discrete" = TRUE),
-                      over="splittingvariable",
-                      cluster=mycluster)
+                      over="splittingvariable")
 
 # take a look at model AICs
 myAICs <- extractAIC.batch_bam(models=mymodels,

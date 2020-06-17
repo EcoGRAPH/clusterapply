@@ -19,19 +19,18 @@
 #'   applyfun to settosplit for every level of the 'over' variable. So for
 #'   example, result[["a"]] is the result of applyfun(data[data$over == 'a']).
 
-applyoverworker <- function(x=NULL,
+applyoverworker <- function(X=NULL,
                             applyfun=NULL,
                             applyargs=NULL,
                             nameaftersplit=NULL,
-                            over=NULL,
-                            cluster=NULL) {
+                            over=NULL) {
 
   tryCatch({
 
     # add arguments to pass along
-    applyargs[[nameaftersplit]] <- x
+    applyargs[[nameaftersplit]] <- X
 
-    rm(x)
+    rm(X)
     rm(nameaftersplit)
     gc()
 

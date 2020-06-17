@@ -23,27 +23,18 @@ applyover <- function(applyfun=NULL,
                       applyargs=NULL,
                       settosplit=NULL,
                       nameaftersplit=NULL,
-                      over=NULL,
-                      cluster=NULL) {
-
-  # if we aren't passed a cluster, make a clean environment
-  if (is.null(cluster)) {
-
-    cluster <- parallel::makeCluster(1)
-
-  }
+                      over=NULL) {
 
   # get list of the levels of the variable over which we split
   myx <- split(settosplit, f = settosplit[,over])
 
-  # evaluate over this variable
-  result <- parallel::clusterApplyLB(fun=clusterapply::applyoverworker,
-                           cl=cluster,
-                           x=myx,
-                           applyfun=applyfun,
-                           applyargs=applyargs,
-                           nameaftersplit=nameaftersplit,
-                           over=over)
+  # run the function
+  result <- lapply(X=myx,
+                   FUN=clusterapply::applyoverworker,
+                   applyfun=applyfun,
+                   applyargs=applyargs,
+                   nameaftersplit=nameaftersplit,
+                   over=over)
 
   # make sure we know which entry corresponds to which level of over
   names(result) <- names(myx)

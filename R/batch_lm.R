@@ -1,15 +1,13 @@
 batch_lm <- function(data=NULL,
                      lmargs=NULL,
-                     over=NULL,
-                     cluster=NULL) {
+                     over=NULL) {
 
   # run the requested model
   mymodels <- clusterapply::applyover(applyfun=lm,
                         applyargs=lmargs,
                         settosplit=data,
                         nameaftersplit="data",
-                        over=over,
-                        cluster=cluster)
+                        over=over)
 
   return(mymodels)
 
