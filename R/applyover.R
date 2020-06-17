@@ -21,23 +21,49 @@
 
 applyover <- function(applyfun=NULL,
                       applyargs=NULL,
+                      fallbackargs=NULL,
                       settosplit=NULL,
                       nameaftersplit=NULL,
                       over=NULL) {
 
-  # get list of the levels of the variable over which we split
-  myx <- split(settosplit, f = settosplit[,over])
+  # set up some holders
+  result <- list()
 
-  # run the function
-  result <- lapply(X=myx,
-                   FUN=clusterapply::applyoverworker,
-                   applyfun=applyfun,
-                   applyargs=applyargs,
-                   nameaftersplit=nameaftersplit,
-                   over=over)
+  for (curx in unique(settosplit[,over])) {
 
-  # make sure we know which entry corresponds to which level of over
-  names(result) <- names(myx)
+    # create temporary arguments, since these might change
+    tempapplyargs <- applyargs
+    tempapplyargs[[nameaftersplit]] <- settosplit[settosplit[,over] == curx,]
+
+    tryCatch({
+
+      tempresult <- do.call(what=applyfun, args=tempapplyargs)
+
+    },
+
+      error=function(e)
+
+    {
+
+      # if we have an error, try the fallbackargs
+      for (curfallbackarg in 1:length(fallbackargs)) {
+
+        tempapplyargs[[names(fallbackargs)[curfallbackarg]]] <- fallbackargs[[curfallbackarg]]
+
+      }
+      tempresult <- do.call(what=applyfun, args=tempapplyargs)
+
+    })
+
+    # add to the list of results
+    result[[curx]] <- tempresult
+
+    # clean up
+    rm(tempresult)
+    rm(tempapplyargs)
+    gc()
+
+  }
 
   # clean up
   rm(list=setdiff(ls(), "result"))
