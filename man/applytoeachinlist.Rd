@@ -32,6 +32,9 @@ example, if listobject is a list of regressions, then splitalongside
 may be a set of newdata, indexed so that predictions for each regression
 depend only on some subset of splitalongside}
 
+\item{splitalongsidename}{what should the splitalongside frame be called after
+it has been split? This is commonly something like "newdata"}
+
 \item{splitalongsidesplitter}{The name of the factor variable in settosplit, over
 which it should be split.}
 }

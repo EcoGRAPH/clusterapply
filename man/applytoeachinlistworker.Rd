@@ -32,6 +32,9 @@ commonly 'x' or 'data'}
 \item{splitalongside}{An optional dataframe that should be split alongside
 the listobject, containing the factor variable splitalongsidename.}
 
+\item{splitalongsidename}{The name of splitalongside after it has been split;
+e.g. this is commonly something like "newdata".}
+
 \item{splitalongsidesplitter}{The name of the factor variable in settosplit, over
 which it should be split.}
 }
