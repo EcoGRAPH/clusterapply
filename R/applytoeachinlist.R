@@ -12,6 +12,8 @@
 #' @param nameaftersplit The name of the argument of applyfun that
 #'   takes the settosplit dataframe after it has been split; this is
 #'   commonly 'x' or 'data'
+#' @param splitalongsidename what should the splitalongside frame be called after
+#'   it has been split? This is commonly something like "newdata"
 #' @param splitalongsidesplitter The name of the factor variable in settosplit, over
 #'   which it should be split.
 #' @return This function returns a named list of results, having applied
