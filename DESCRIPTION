@@ -1,19 +1,17 @@
 Package: clusterapply
 Type: Package
-Title: Applying functions using parallel computing
+Title: Applying functions over split data frames
 Version: 0.1.0
 Author: Justin K. Davis <justinkdavis@ou.edu>
 Maintainer: Justin K. Davis <justinkdavis@ou.edu>
 Description: These functions are intended to be used for applying 
-    functions over data sets split along some factor variable,
-    using clusters created by the parallel library for parallel
-    computation.
+    functions over data sets split along some factor variable.
 License: GPL
 Encoding: UTF-8
 LazyData: true
 Imports:
     dplyr,
-    parallel
+    mgcv
 Suggests: 
     knitr,
     rmarkdown
