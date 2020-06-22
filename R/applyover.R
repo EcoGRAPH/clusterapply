@@ -1,7 +1,10 @@
-#' Apply a function over a dataframe in parallel.
+#' Apply a function over a dataframe after splitting along some "over" variable
 #'
 #' @param applyfun The character name of a function to apply.
 #' @param applyargs A named list of arguments supplied to applyfun.
+#' @param fallbackargs A named list of arguments to replace arguments in
+#'   applyargs if the call to applyfun results in an error. Any arguments
+#'   in applyargs that are not named in fallbackargs will be reused.
 #' @param settosplit A dataframe that will be split by the 'over'
 #'   parameter below.
 #' @param nameaftersplit The name of the argument of applyfun that
@@ -9,15 +12,9 @@
 #'   commonly 'x' or 'data'
 #' @param over The name of the factor variable in settosplit, over
 #'   which it should be split.
-#' @param libs A vector of named libraries that need to be loaded
-#'   to run applyfun in clean clusters (e.g. applyfun 'bam' requires
-#'   libs = c('mgcv')
-#' @param cluster A cluster created by parallel::makeCluster. If this
-#'   is not provided, applyover will create a single-node cluster and
-#'   run applyfun in serial over settotsplit.
 #' @return This function returns a named list of results, having applied
 #'   applyfun to settosplit for every level of the 'over' variable. So for
-#'   example, result[["a"]] is the result of applyfun(data[data$over == 'a']).
+#'   example, applyover(...)[["a"]] is the result of applyfun(data[data$over == 'a']).
 
 applyover <- function(applyfun=NULL,
                       applyargs=NULL,

@@ -1,25 +1,22 @@
-#' Apply a function to each member of a list, in parallel.
+#' Apply a function to each member of a list
 #'
 #' @param listobject A named list object containing elements to which
 #'   the applyfun will be applied.
 #' @param applyfun The character name of a function to apply.
 #' @param applyargs A named list of arguments supplied to applyfun.
 #' @param splitalongside An optional dataframe that should be split alongside
-#'   the listobject, containing the factor variable splitalongsidename.
+#'   the listobject, containing the factor variable splitalongsidename. For
+#'   example, if listobject is a list of regressions, then splitalongside
+#'   may be a set of newdata, indexed so that predictions for each regression
+#'   depend only on some subset of splitalongside
 #' @param nameaftersplit The name of the argument of applyfun that
 #'   takes the settosplit dataframe after it has been split; this is
 #'   commonly 'x' or 'data'
-#' @param over The name of the factor variable in settosplit, over
+#' @param splitalongsidesplitter The name of the factor variable in settosplit, over
 #'   which it should be split.
-#' @param libs A vector of named libraries that need to be loaded
-#'   to run applyfun in clean clusters (e.g. applyfun 'bam' requires
-#'   libs = c('mgcv')
-#' @param cluster A cluster created by parallel::makeCluster. If this
-#'   is not provided, applyover will create a single-node cluster and
-#'   run applyfun in serial over settotsplit.
 #' @return This function returns a named list of results, having applied
 #'   applyfun to settosplit for every level of the 'over' variable. So for
-#'   example, result[["a"]] is the result of applyfun(data[data$over == 'a']).
+#'   example, applytoeachinlist(...)[["a"]] is the result of applyfun(listobject[["a"]]).
 
 applytoeachinlist <- function(listobject=NULL,
                               applyfun=NULL,

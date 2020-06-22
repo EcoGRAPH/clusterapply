@@ -1,3 +1,17 @@
+#' Run predictions on batch_bam models
+#'
+#' @param models This is a named list of bam models, probably resulting from
+#'   batch_bam.
+#' @param predictargs This is a named list of arguments for the predict.bam function,
+#'   such as list('type'='response').
+#' @param over The name of the column in newdata which contains the levels over
+#'   which the batch_bam was originally split (and should correspond to the names
+#'   of the listed models)
+#' @param newdata The data frame to be passed to predict.bam after splitting by
+#'   over. Currently, all predictions must be run anew - i.e. we do not access
+#'   $fitted.
+#' @return A vector with predictions in the order of rows of newdata.
+
 predict.batch_bam <- function(models=NULL,
                               predictargs=NULL,
                               over=NULL,

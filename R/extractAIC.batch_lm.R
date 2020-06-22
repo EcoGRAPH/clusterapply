@@ -1,3 +1,10 @@
+#' Extract the AICs from batch_bam models.
+#'
+#' @param models This is a named list of lm models, probably resulting from
+#'   batch_lm.
+#' @return A data frame with columns corresponding to the outputs of extractAIC()
+#'   called on an individual model.
+
 extractAIC.batch_lm <- function(models=NULL) {
 
   # apply predict.gam to each object in the set with complete newdata
