@@ -15,7 +15,7 @@ batch_lm <- function(data=NULL,
                      over=NULL) {
 
   # run the requested model
-  mymodels <- clusterapply::applyover(applyfun=lm,
+  mymodels <- clusterapply::applyover(applyfun=stats::lm,
                         applyargs=lmargs,
                         settosplit=data,
                         nameaftersplit="data",

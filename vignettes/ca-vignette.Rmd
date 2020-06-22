@@ -1,0 +1,112 @@
+---
+title: "clusterapply vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ca-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, message=FALSE}
+library(clusterapply)
+library(dplyr)
+library(ggplot2)
+library(mgcv)
+
+set.seed(1337)
+```
+
+We create a data set in which splittingvariable defines different relationships between the outcome variable z and the independent variable y. You might typically model this as bam(z ~ y*splittingvariable, ...), but for various reasons may need to split this into bam(z ~ y, data=sv1), bam(z ~ y, data=sv2), ... where svi is the subset of the data frame in which splittingvariable equals i.
+
+```{r createdata, fig.height=4, fig.width=6}
+# create a fake data set with multiple levels of an over variable
+nsamples <- 1000
+mydf   <- data.frame(splittingvariable=factor(sample(1:5,
+                                              size=nsamples,
+                                              replace=TRUE)),
+                     y=2*runif(nsamples)-1)
+mydf$z <- rnorm(n=nsamples,
+                mean=10*mydf$y^2 + 3*as.numeric(mydf$splittingvariable),
+                sd=0.5)
+
+ggplot(mydf) + geom_point(aes(x=y, y=z, color=splittingvariable))
+```
+
+We then run a set of bam models with z as a smooth function of y, using a thin-plate spline basis, with gaussian distributions, using the discrete=TRUE parameter, which typically speeds up bam calculations greatly. We split along the splittingvarible.
+
+```{r batchbam}
+mymodels <- batch_bam(data=mydf,
+                      bamargs=list("formula"  = formula("z ~ s(y, bs='tp')"),
+                                   "family"   = "gaussian",
+                                   "discrete" = TRUE),
+                      over="splittingvariable")
+```
+
+This is qualitatively equivalent to the following single call to bam, but each separate regression in the batch_bam has its own estimated scale, etc. Calling a batch_bam may be necessary and helpful if there are clear divisions within the data set and the whole regression is not feasible to run, likely due to memory constraints.
+
+```{r regularbam}
+mysinglemodel <- bam(z ~ splittingvariable + s(y, by=splittingvariable, bs='tp'),
+                     data=mydf)
+```
+
+We can take a look at the parameters from the batch fits:
+
+```{r parameters}
+# take a look at model AICs
+myAICs <- extractAIC.batch_bam(models=mymodels)
+myAICs
+
+# take a look at the summaries
+mysummaries <- summary.batch_bam(models=mymodels)
+mysummaries[[1]]$scale
+
+```
+
+We create a newdf frame into which we'll put the batch_bam predictions.
+
+```{r predictions}
+# create a new data frame for modeling
+newdf <- expand.grid(splittingvariable=unique(mydf$splittingvariable),
+                     y=seq(from=min(mydf$y, na.rm=TRUE),
+                           to  =max(mydf$y, na.rm=TRUE),
+                           length.out=500))
+
+# predict on the new set
+newdf$pred <- predict.batch_bam(models=mymodels,
+                                predictargs=list("type"="response",
+                                                "discrete"=TRUE),
+                                over="splittingvariable",
+                                newdata=newdf)
+```
+
+Below we display predictions from the models, colored according to the splittingvariable in the newdf frame.
+
+```{r plotpreditions, fig.height=4, fig.width=6}
+# display
+ggplot() + geom_line(data=newdf,
+                     aes(x=y, y=pred,
+                         color=factor(splittingvariable),
+                         group=factor(splittingvariable)), size=1) +
+  geom_point(data=mydf,
+             aes(x=y, y=z, color=factor(splittingvariable),
+                 group=factor(splittingvariable)), alpha=0.5) +
+  scale_color_discrete(name="splitting\nvariable")
+```
+
+We can compare these predictions with the predictions of the single bam model with an interaction term. Ideally, these should be identical, but sometimes the single bam model is too large to run.
+
+```{r singlepreds, fig.height=5, fig.width=5}
+newdf$singlepreds <- predict(mysinglemodel, newdata=newdf)
+
+ggplot(newdf) + geom_point(aes(x=pred, y=singlepreds)) +
+  geom_abline(slope=1, intercept=0, linetype=2, color="red") +
+  coord_equal() +
+  xlab("batch_bam prediction") + ylab("bam prediction")
+```
