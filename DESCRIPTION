@@ -1,7 +1,7 @@
 Package: clusterapply
 Type: Package
 Title: Applying functions over split data frames
-Version: 0.1.0
+Version: 1.0.0
 Author: Justin K. Davis <justinkdavis@ou.edu>
 Maintainer: Justin K. Davis <justinkdavis@ou.edu>
 Description: These functions are intended to be used for applying 
