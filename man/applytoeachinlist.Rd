@@ -2,11 +2,18 @@
 % Please edit documentation in R/applytoeachinlist.R
 \name{applytoeachinlist}
 \alias{applytoeachinlist}
-\title{Apply a function to each member of a list}
+\title{Apply a function to each member of a list, possibly splitting a dataframe
+alongside the list (e.g. to supply newdata to every member of a list)}
 \usage{
-applytoeachinlist(listobject = NULL, applyfun = NULL,
-  applyargs = NULL, nameaftersplit = NULL, splitalongside = NULL,
-  splitalongsidename = NULL, splitalongsidesplitter = NULL)
+applytoeachinlist(
+  listobject = NULL,
+  applyfun = NULL,
+  applyargs = NULL,
+  nameaftersplit = NULL,
+  splitalongside = NULL,
+  splitalongsidename = NULL,
+  splitalongsidesplitter = NULL
+)
 }
 \arguments{
 \item{listobject}{A named list object containing elements to which
@@ -38,5 +45,6 @@ This function returns a named list of results, having applied
   example, applytoeachinlist(...)[["a"]] is the result of applyfun(listobject[["a"]]).
 }
 \description{
-Apply a function to each member of a list
+Apply a function to each member of a list, possibly splitting a dataframe
+alongside the list (e.g. to supply newdata to every member of a list)
 }

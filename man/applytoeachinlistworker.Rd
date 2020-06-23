@@ -4,10 +4,16 @@
 \alias{applytoeachinlistworker}
 \title{A worker function for possible parallelization in applytoeachinlist}
 \usage{
-applytoeachinlistworker(X = NULL, listobject = NULL,
-  applyargs = NULL, applyfun = NULL, nameaftersplit = NULL,
-  splitalongside = NULL, splitalongsidename = NULL,
-  splitalongsidesplitter = NULL)
+applytoeachinlistworker(
+  X = NULL,
+  listobject = NULL,
+  applyargs = NULL,
+  applyfun = NULL,
+  nameaftersplit = NULL,
+  splitalongside = NULL,
+  splitalongsidename = NULL,
+  splitalongsidesplitter = NULL
+)
 }
 \arguments{
 \item{X}{Internal - name of listobject which should be evaluated}

@@ -2,10 +2,10 @@
 % Please edit documentation in R/batch_bam.R
 \name{batch_bam}
 \alias{batch_bam}
-\title{Run a set of separate but similar mgcv::bam models in a single function call}
+\title{Run a set of separate but similar mgcv::bam models in a single function call, with
+the possibility of replacing arguments if the regression results in an error.}
 \usage{
-batch_bam(data = NULL, bamargs = NULL, bamargs_fallback = NULL,
-  over = NULL)
+batch_bam(data = NULL, bamargs = NULL, bamargs_fallback = NULL, over = NULL)
 }
 \arguments{
 \item{data}{The dataframe in which all the data for regressions are to be found.
@@ -28,5 +28,6 @@ This function returns a named list of bam objects, and possibly errors
   if bamargs and bamargs_fallback fail to produce a model for some levels of over.
 }
 \description{
-Run a set of separate but similar mgcv::bam models in a single function call
+Run a set of separate but similar mgcv::bam models in a single function call, with
+the possibility of replacing arguments if the regression results in an error.
 }

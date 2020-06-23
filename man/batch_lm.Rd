@@ -2,7 +2,7 @@
 % Please edit documentation in R/batch_lm.R
 \name{batch_lm}
 \alias{batch_lm}
-\title{Run a set of separate but similar stats::lm models in a single function call}
+\title{Run a set of separate but similar stats::lm models in a single function call.}
 \usage{
 batch_lm(data = NULL, lmargs = NULL, over = NULL)
 }
@@ -22,5 +22,5 @@ This function returns a named list of lm objects, and possibly errors
   if lm fails to produce a model.
 }
 \description{
-Run a set of separate but similar stats::lm models in a single function call
+Run a set of separate but similar stats::lm models in a single function call.
 }
