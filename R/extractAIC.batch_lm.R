@@ -1,5 +1,7 @@
 #' Extract the AICs from batch_bam models.
 #'
+#' @export extractAIC.batch_lm
+#'
 #' @param models This is a named list of lm models, probably resulting from
 #'   batch_lm.
 #' @return A data frame with columns corresponding to the outputs of extractAIC()

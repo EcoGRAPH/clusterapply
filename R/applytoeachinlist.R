@@ -1,4 +1,7 @@
-#' Apply a function to each member of a list
+#' Apply a function to each member of a list, possibly splitting a dataframe
+#' alongside the list (e.g. to supply newdata to every member of a list)
+#'
+#' @export
 #'
 #' @param listobject A named list object containing elements to which
 #'   the applyfun will be applied.

@@ -1,5 +1,7 @@
 #' A worker function for possible parallelization in applytoeachinlist
 #'
+#' @export
+#'
 #' @param X Internal - name of listobject which should be evaluated
 #' @param listobject A named list object containing elements to which
 #'   the applyfun will be applied.

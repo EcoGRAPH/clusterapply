@@ -4,7 +4,8 @@
 \alias{predict.batch_bam}
 \title{Run predictions on batch_bam models}
 \usage{
-\method{predict}{batch_bam}(models = NULL, predictargs = NULL, over = NULL, newdata = NULL)
+\method{predict}{batch_bam}(models = NULL, predictargs = NULL,
+  over = NULL, newdata = NULL)
 }
 \arguments{
 \item{models}{This is a named list of bam models, probably resulting from

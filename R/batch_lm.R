@@ -1,4 +1,6 @@
-#' Run a set of separate but similar stats::lm models in a single function call
+#' Run a set of separate but similar stats::lm models in a single function call.
+#'
+#' @export
 #'
 #' @param data The dataframe in which all the data for regressions are to be found.
 #'   This dataframe should contain a column that splits it into separate frames

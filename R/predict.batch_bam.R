@@ -1,5 +1,7 @@
 #' Run predictions on batch_bam models
 #'
+#' @export predict.batch_bam
+#'
 #' @param models This is a named list of bam models, probably resulting from
 #'   batch_bam.
 #' @param predictargs This is a named list of arguments for the predict.bam function,

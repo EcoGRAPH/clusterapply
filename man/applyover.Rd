@@ -4,14 +4,8 @@
 \alias{applyover}
 \title{Apply a function over a dataframe after splitting along some "over" variable}
 \usage{
-applyover(
-  applyfun = NULL,
-  applyargs = NULL,
-  fallbackargs = NULL,
-  settosplit = NULL,
-  nameaftersplit = NULL,
-  over = NULL
-)
+applyover(applyfun = NULL, applyargs = NULL, fallbackargs = NULL,
+  settosplit = NULL, nameaftersplit = NULL, over = NULL)
 }
 \arguments{
 \item{applyfun}{The character name of a function to apply.}

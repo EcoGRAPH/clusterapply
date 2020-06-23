@@ -1,5 +1,7 @@
 #' Run summaries on batch_bam models
 #'
+#' @export summary.batch_bam
+#'
 #' @param models This is a named list of bam models, probably resulting from
 #'   batch_bam.
 #' @return A named vector with containing model summaries

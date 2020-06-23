@@ -1,5 +1,7 @@
 #' Apply a function over a dataframe after splitting along some "over" variable
 #'
+#' @export
+#'
 #' @param applyfun The character name of a function to apply.
 #' @param applyargs A named list of arguments supplied to applyfun.
 #' @param fallbackargs A named list of arguments to replace arguments in

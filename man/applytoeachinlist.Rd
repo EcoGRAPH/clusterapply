@@ -4,15 +4,9 @@
 \alias{applytoeachinlist}
 \title{Apply a function to each member of a list}
 \usage{
-applytoeachinlist(
-  listobject = NULL,
-  applyfun = NULL,
-  applyargs = NULL,
-  nameaftersplit = NULL,
-  splitalongside = NULL,
-  splitalongsidename = NULL,
-  splitalongsidesplitter = NULL
-)
+applytoeachinlist(listobject = NULL, applyfun = NULL,
+  applyargs = NULL, nameaftersplit = NULL, splitalongside = NULL,
+  splitalongsidename = NULL, splitalongsidesplitter = NULL)
 }
 \arguments{
 \item{listobject}{A named list object containing elements to which

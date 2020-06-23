@@ -4,7 +4,8 @@
 \alias{batch_bam}
 \title{Run a set of separate but similar mgcv::bam models in a single function call}
 \usage{
-batch_bam(data = NULL, bamargs = NULL, bamargs_fallback = NULL, over = NULL)
+batch_bam(data = NULL, bamargs = NULL, bamargs_fallback = NULL,
+  over = NULL)
 }
 \arguments{
 \item{data}{The dataframe in which all the data for regressions are to be found.
