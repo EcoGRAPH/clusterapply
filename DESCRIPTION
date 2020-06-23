@@ -6,7 +6,7 @@ Author: Justin K. Davis <justinkdavis@ou.edu>
 Maintainer: Justin K. Davis <justinkdavis@ou.edu>
 Description: These functions are intended to be used for applying 
     functions over data sets split along some factor variable.
-License: GPL
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
