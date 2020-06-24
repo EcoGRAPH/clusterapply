@@ -1,10 +1,21 @@
 ---
-title: "ca-vignette"
-output: rmarkdown::html_vignette
+title: "Clusterapply vignette"
+author: |
+  | Justin K. Davis and EPIDEMIA Team Members
+  | Department of Geography and Environmental Sustainability, University of Oklahoma
+  | justinkdavis@ou.edu@ou.edu
+date: "Updated `r format(Sys.time(), '%B %d, %Y')`"
+output:
+  rmarkdown::html_vignette:
+    fig_caption: yes
+  pdf_document:
+    number_sections: yes
+    toc: yes
+    toc_depth: 2
 vignette: >
-  %\VignetteIndexEntry{ca-vignette}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Clusterapply vignette}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -13,7 +24,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-This is a vignette for the clusterapply package, which is intended to serialize/parallelize certain calculations, especially regressions, when simulateous computation is infeasible, likely due to memory constraints. Below is an example in which a regression with an interaction term is instead split into a number of different regressions.
+This is a vignette for the clusterapply package, which is intended to serialize/parallelize certain calculations, especially regressions, when simultaneous computation is infeasible, likely due to memory constraints. Below is an example in which a regression with an interaction term is instead split into a number of different regressions.
 
 ```{r setup, message=FALSE}
 library(clusterapply)
