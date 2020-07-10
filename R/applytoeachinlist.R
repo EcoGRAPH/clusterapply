@@ -26,6 +26,7 @@
 applytoeachinlist <- function(listobject=NULL,
                               applyfun=NULL,
                               applyargs=NULL,
+                              fallbackargs=NULL,
                               nameaftersplit=NULL,
                               splitalongside=NULL,
                               splitalongsidename=NULL,
@@ -54,14 +55,18 @@ applytoeachinlist <- function(listobject=NULL,
 
     }, error=function(e) {
 
-      # if we have an error, try the fallbackargs
-      for (curfallbackarg in 1:length(fallbackargs)) {
+      if (!is.null(fallbackargs)) {
 
-        tempapplyargs[[names(fallbackargs)[curfallbackarg]]] <- fallbackargs[[curfallbackarg]]
+        # if we have an error, try the fallbackargs
+        for (curfallbackarg in 1:length(fallbackargs)) {
 
-      }
-      # add to the list of results
-      result[[curx]] <<- do.call(what=applyfun, args=tempapplyargs)
+          tempapplyargs[[names(fallbackargs)[curfallbackarg]]] <- fallbackargs[[curfallbackarg]]
+
+        }
+        # add to the list of results
+        result[[curx]] <<- do.call(what=applyfun, args=tempapplyargs)
+
+      } else {return(e)}
 
     })
 
