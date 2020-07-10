@@ -2,7 +2,6 @@
 
 export(applyover)
 export(applytoeachinlist)
-export(applytoeachinlistworker)
 export(batch_bam)
 export(batch_lm)
 export(extractAIC.batch_bam)

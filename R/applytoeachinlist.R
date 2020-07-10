@@ -43,7 +43,7 @@ applytoeachinlist <- function(listobject=NULL,
     tempapplyargs[[nameaftersplit]] <- listobject[[curx]]
     if (!is.null(splitalongside)) {
 
-      tempapplyargs[[splitalongsidename]] <- splitalongside[splitalongsidesplitter=curx,]
+      tempapplyargs[[splitalongsidename]] <- splitalongside[splitalongside[,splitalongsidesplitter]==curx,]
 
     }
 
