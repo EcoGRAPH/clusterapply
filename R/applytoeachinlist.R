@@ -34,30 +34,53 @@ applytoeachinlist <- function(listobject=NULL,
 
   # get list of the levels of the variable over which we split
   myx <- names(listobject)
-  if (!is.null(splitalongside)) {
 
-    applyargs[[splitalongsidename]] <- splitalongside
+  # set up some holders
+  result <- list()
+  for (curx in myx) {
+
+    tempapplyargs <- applyargs
+    tempapplyargs[[nameaftersplit]] <- listobject[[curx]]
+    if (!is.null(splitalongside)) {
+
+      tempapplyargs[[splitalongsidename]] <- splitalongside[splitalongsidesplitter=curx,]
+
+    }
+
+    tryCatch({
+
+      # add to the list of results
+      result[[curx]] <- do.call(what=applyfun, args=tempapplyargs)
+
+    }, error=function(e) {
+
+      # if we have an error, try the fallbackargs
+      for (curfallbackarg in 1:length(fallbackargs)) {
+
+        tempapplyargs[[names(fallbackargs)[curfallbackarg]]] <- fallbackargs[[curfallbackarg]]
+
+      }
+      # add to the list of results
+      result[[curx]] <<- do.call(what=applyfun, args=tempapplyargs)
+
+    })
+
+    # clean up
+    rm(tempapplyargs)
+    gc()
 
   }
 
-  # run the function
-  result <- lapply(X=myx,
-                   FUN=clusterapply::applytoeachinlistworker,
-                   listobject=listobject,
-                   applyargs=applyargs,
-                   applyfun=applyfun,
-                   nameaftersplit=nameaftersplit,
-                   splitalongside=splitalongside,
-                   splitalongsidename=splitalongsidename,
-                   splitalongsidesplitter=splitalongsidesplitter)
-
-  # make sure we know which entry corresponds to which level of over
+  # make sure names are correct
   names(result) <- myx
 
-  # clean up as much as we can
+  # clean up
   rm(list=setdiff(ls(), "result"))
-  gc()
 
+  # temporary
+  result$model <- NULL
+
+  gc()
   return(result)
 
 }

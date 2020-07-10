@@ -60,6 +60,10 @@ applyover <- function(applyfun=NULL,
 
   # clean up
   rm(list=setdiff(ls(), "result"))
+
+  # temporary
+  result$model <- NULL
+
   gc()
   return(result)
 
