@@ -51,7 +51,7 @@ applytoeachinlist <- function(listobject=NULL,
     result[[curx]] <- tryCatch({
 
       # add to the list of results
-      return(do.call(what=applyfun, args=tempapplyargs))
+      result[[curx]] <- do.call(what=applyfun, args=tempapplyargs)
 
     }, error=function(e) {
 
@@ -64,7 +64,7 @@ applytoeachinlist <- function(listobject=NULL,
 
         }
         # add to the list of results
-        return(do.call(what=applyfun, args=tempapplyargs))
+        result[[curx]] <- do.call(what=applyfun, args=tempapplyargs)
 
       } else { return(e) }
 
