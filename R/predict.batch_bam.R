@@ -23,7 +23,6 @@ predict.batch_bam <- function(models=NULL,
   if (!is.null(newdata)) {
 
     # set up a lookup
-    row.names(newdata) <- 1:nrow(newdata)
     newdata$reserved_rownumber <- 1:nrow(newdata)
 
     # apply predict to each object in the set with complete newdata
@@ -35,17 +34,24 @@ predict.batch_bam <- function(models=NULL,
                                   splitalongsidename="newdata",
                                   splitalongsidesplitter=over)
 
-    # put predictions back into a data frame
-    mypredictions <- data.frame(reserved_rownumber = as.numeric(unlist(clusterapply::applytoeachinlist(listobject=myfitted,
-                                                                                 applyfun="names",
-                                                                                 nameaftersplit="x"))),
-                                pred    = unlist(clusterapply::applytoeachinlist(listobject=myfitted,
-                                                                                 applyfun="as.data.frame",
-                                                                                 nameaftersplit="x")))
+    # get reordered list of rownumbers
+    myx <- names(models)
+    predframe <- data.frame()
+    for (curx in myx) {
 
-    # feels unwieldy, but think is necessary
-    newdata <- dplyr::left_join(newdata, mypredictions, by=c("reserved_rownumber"))
-    return(newdata$pred)
+        tempdf <- data.frame(reserved_rownumber = newdata$reserved_rownumber[newdata[,over]==curx])
+        predframe <- bind_rows(predframe, tempdf)
+
+    }
+
+    # add the reordered predictors
+    predframe$preds <- unlist(clusterapply::applytoeachinlist(listobject=myfitted,
+                                                              applyfun="as.data.frame",
+                                                              nameaftersplit="x"),
+                              use.names=FALSE)
+
+    newdata <- dplyr::left_join(newdata, predframe, by="reserved_rownumber")
+    return(unlist(newdata$pred, use.names=FALSE))
 
   } else {
 

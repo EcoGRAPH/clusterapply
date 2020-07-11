@@ -48,10 +48,10 @@ applytoeachinlist <- function(listobject=NULL,
 
     }
 
-    tryCatch({
+    result[[curx]] <- tryCatch({
 
       # add to the list of results
-      result[[curx]] <- do.call(what=applyfun, args=tempapplyargs)
+      return(do.call(what=applyfun, args=tempapplyargs))
 
     }, error=function(e) {
 
@@ -64,9 +64,9 @@ applytoeachinlist <- function(listobject=NULL,
 
         }
         # add to the list of results
-        result[[curx]] <<- do.call(what=applyfun, args=tempapplyargs)
+        return(do.call(what=applyfun, args=tempapplyargs))
 
-      } else {return(e)}
+      } else { return(e) }
 
     })
 
@@ -81,9 +81,6 @@ applytoeachinlist <- function(listobject=NULL,
 
   # clean up
   rm(list=setdiff(ls(), "result"))
-
-  # temporary
-  result$model <- NULL
 
   gc()
   return(result)
