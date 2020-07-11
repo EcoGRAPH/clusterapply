@@ -37,7 +37,7 @@ applyover <- function(applyfun=NULL,
     result[[curx]] <- tryCatch({
 
       # add to the list of results
-      result[[curx]] <- do.call(what=applyfun, args=tempapplyargs)
+      do.call(what=applyfun, args=tempapplyargs)
 
     }, error=function(e) {
 
@@ -48,7 +48,7 @@ applyover <- function(applyfun=NULL,
 
       }
       # add to the list of results
-      result[[curx]] <- do.call(what=applyfun, args=tempapplyargs)
+      do.call(what=applyfun, args=tempapplyargs)
 
     })
 
