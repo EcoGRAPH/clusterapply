@@ -34,10 +34,10 @@ applyover <- function(applyfun=NULL,
     tempapplyargs <- applyargs
     tempapplyargs[[nameaftersplit]] <- settosplit[settosplit[,over] == curx,]
 
-    tryCatch({
+    result[[curx]] <- tryCatch({
 
       # add to the list of results
-      result[[curx]] <- do.call(what=applyfun, args=tempapplyargs)
+      return(do.call(what=applyfun, args=tempapplyargs))
 
     }, error=function(e) {
 
@@ -48,7 +48,7 @@ applyover <- function(applyfun=NULL,
 
       }
       # add to the list of results
-      result[[curx]] <<- do.call(what=applyfun, args=tempapplyargs)
+      return(do.call(what=applyfun, args=tempapplyargs))
 
     })
 
