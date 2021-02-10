@@ -41,14 +41,22 @@ applyover <- function(applyfun=NULL,
 
     }, error=function(e) {
 
-      # if we have an error, try the fallbackargs
-      for (curfallbackarg in 1:length(fallbackargs)) {
+      if (!is.null(fallbackargs)) {
 
-        tempapplyargs[[names(fallbackargs)[curfallbackarg]]] <- fallbackargs[[curfallbackarg]]
+        # if we have an error, try the fallbackargs
+        for (curfallbackarg in 1:length(fallbackargs)) {
+
+          tempapplyargs[[names(fallbackargs)[curfallbackarg]]] <- fallbackargs[[curfallbackarg]]
+
+        }
+        # add to the list of results
+        do.call(what=applyfun, args=tempapplyargs)
+
+      } else {
+
+        return(NULL)
 
       }
-      # add to the list of results
-      do.call(what=applyfun, args=tempapplyargs)
 
     })
 

@@ -54,7 +54,7 @@ predict.batch_lm <- function(models=NULL,
 
   } else {
 
-    stop("predict.batch_bam requires newdata, even if newdata=trainingdata")
+    stop("predict.batch_lm requires newdata, even if newdata=trainingdata")
 
   }
 
