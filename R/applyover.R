@@ -34,21 +34,29 @@ applyover <- function(applyfun=NULL,
     tempapplyargs <- applyargs
     tempapplyargs[[nameaftersplit]] <- settosplit[settosplit[,over] == curx,]
 
-    tryCatch({
+    result[[curx]] <- tryCatch({
 
       # add to the list of results
-      result[[curx]] <- do.call(what=applyfun, args=tempapplyargs)
+      do.call(what=applyfun, args=tempapplyargs)
 
     }, error=function(e) {
 
-      # if we have an error, try the fallbackargs
-      for (curfallbackarg in 1:length(fallbackargs)) {
+      if (!is.null(fallbackargs)) {
 
-        tempapplyargs[[names(fallbackargs)[curfallbackarg]]] <- fallbackargs[[curfallbackarg]]
+        # if we have an error, try the fallbackargs
+        for (curfallbackarg in 1:length(fallbackargs)) {
+
+          tempapplyargs[[names(fallbackargs)[curfallbackarg]]] <- fallbackargs[[curfallbackarg]]
+
+        }
+        # add to the list of results
+        do.call(what=applyfun, args=tempapplyargs)
+
+      } else {
+
+        return(NULL)
 
       }
-      # add to the list of results
-      result[[curx]] <<- do.call(what=applyfun, args=tempapplyargs)
 
     })
 
@@ -60,6 +68,10 @@ applyover <- function(applyfun=NULL,
 
   # clean up
   rm(list=setdiff(ls(), "result"))
+
+  # temporary
+  result$model <- NULL
+
   gc()
   return(result)
 

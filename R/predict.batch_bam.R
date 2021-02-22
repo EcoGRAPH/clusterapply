@@ -22,8 +22,11 @@ predict.batch_bam <- function(models=NULL,
   # if we have newdata, we need to split it carefully
   if (!is.null(newdata)) {
 
-    # set up a lookup
-    row.names(newdata) <- 1:nrow(newdata)
+    # we need to know which rows of the original data frame correspond to which predictions,
+    # but since we're splitting the original data frame along the "over" variable, we might
+    # not preserve the order of the rows. We create this variable called "reserved_rownumber"
+    # so that we can reconstruct the order of the predictions to match the order of the original
+    # data frame
     newdata$reserved_rownumber <- 1:nrow(newdata)
 
     # apply predict to each object in the set with complete newdata
@@ -35,17 +38,27 @@ predict.batch_bam <- function(models=NULL,
                                   splitalongsidename="newdata",
                                   splitalongsidesplitter=over)
 
-    # put predictions back into a data frame
-    mypredictions <- data.frame(reserved_rownumber = as.numeric(unlist(clusterapply::applytoeachinlist(listobject=myfitted,
-                                                                                 applyfun="names",
-                                                                                 nameaftersplit="x"))),
-                                pred    = unlist(clusterapply::applytoeachinlist(listobject=myfitted,
-                                                                                 applyfun="as.data.frame",
-                                                                                 nameaftersplit="x")))
+    # get reordered list of rownumbers
+    myx <- names(models)
+    predframe <- data.frame()
+    for (curx in myx) {
 
-    # feels unwieldy, but think is necessary
-    newdata <- dplyr::left_join(newdata, mypredictions, by=c("reserved_rownumber"))
-    return(newdata$pred)
+      # extract the reserved_rownumbers corresponding to these rows from the original data frame
+      # according to level of x.
+      tempdf <- data.frame(reserved_rownumber = newdata$reserved_rownumber[newdata[,over]==curx])
+      predframe <- bind_rows(predframe, tempdf)
+
+    }
+
+    # add the reordered predictors
+    predframe$preds <- unlist(clusterapply::applytoeachinlist(listobject=myfitted,
+                                                              applyfun="as.data.frame",
+                                                              nameaftersplit="x"),
+                              use.names=FALSE)
+
+    # now, join back to the original data set so that we can get the predictions in the right order
+    newdata <- dplyr::left_join(newdata, predframe, by="reserved_rownumber")
+    return(unlist(newdata$pred, use.names=FALSE))
 
   } else {
 

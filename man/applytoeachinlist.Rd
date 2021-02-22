@@ -9,6 +9,7 @@ applytoeachinlist(
   listobject = NULL,
   applyfun = NULL,
   applyargs = NULL,
+  fallbackargs = NULL,
   nameaftersplit = NULL,
   splitalongside = NULL,
   splitalongsidename = NULL,
