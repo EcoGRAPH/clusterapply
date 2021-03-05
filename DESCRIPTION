@@ -1,9 +1,13 @@
 Package: clusterapply
 Type: Package
 Title: Applying functions over split data frames
-Version: 1.0.0
-Author: Justin K. Davis <justinkdavis@ou.edu>
-Maintainer: Justin K. Davis <justinkdavis@ou.edu>
+Version: 1.0.1
+Authors@R: c(
+  person(given = c("Dawn", "M"), family = "Nekorchuk", email = "dawn.nekorchuk@ou.edu",
+  role = c("ctb")), 
+  person(given = c("Justin", "K"), family = "Davis", email = "justinkdavis@ou.edu", role = c("cre", "aut")),
+  person(given = c("Michael", "C"), family = "Wimberly", email = "mcwimberly@ou.edu", role = "rth"))
+Maintainer: Dawn M Nekorchuk <dawn.nekorchuk@ou.edu>
 Description: These functions are intended to be used for applying 
     functions over data sets split along some factor variable.
 License: MIT + file LICENSE
