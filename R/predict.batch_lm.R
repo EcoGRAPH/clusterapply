@@ -39,7 +39,7 @@ predict.batch_lm <- function(models=NULL,
     for (curx in myx) {
 
         tempdf <- data.frame(reserved_rownumber = newdata$reserved_rownumber[newdata[,over]==curx])
-        predframe <- bind_rows(predframe, tempdf)
+        predframe <- dplyr::bind_rows(predframe, tempdf)
 
     }
 

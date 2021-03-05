@@ -46,7 +46,7 @@ predict.batch_bam <- function(models=NULL,
       # extract the reserved_rownumbers corresponding to these rows from the original data frame
       # according to level of x.
       tempdf <- data.frame(reserved_rownumber = newdata$reserved_rownumber[newdata[,over]==curx])
-      predframe <- bind_rows(predframe, tempdf)
+      predframe <- dplyr::bind_rows(predframe, tempdf)
 
     }
 
